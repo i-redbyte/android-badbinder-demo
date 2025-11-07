@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
-project("exploitapp" C)
+project("badbinder" C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
