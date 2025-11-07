@@ -17,12 +17,17 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        ndk {
+            abiFilters += listOf("x86_64")
+        }
+
         externalNativeBuild {
             cmake {
                 cppFlags += "-std=c++11"
                 arguments += "-DANDROID_STL=c++_shared"
             }
         }
+
     }
 
     buildTypes {
