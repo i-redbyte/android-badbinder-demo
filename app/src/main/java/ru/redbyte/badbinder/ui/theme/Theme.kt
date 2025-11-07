@@ -1,58 +1,61 @@
 package ru.redbyte.badbinder.ui.theme
 
 import android.app.Activity
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = androidx.compose.ui.graphics.Color(0xFFBB86FC),
-    secondary = androidx.compose.ui.graphics.Color(0xFF03DAC5),
-    tertiary = androidx.compose.ui.graphics.Color(0xFFCF6679)
-)
+// Матрица ✳️
+private val MatrixGreen = Color(0xFF00FF41)
+private val MatrixGreenSoft = Color(0xFF5CFF95)
 
-private val LightColorScheme = lightColorScheme(
-    primary = androidx.compose.ui.graphics.Color(0xFF6200EE),
-    secondary = androidx.compose.ui.graphics.Color(0xFF03DAC5),
-    tertiary = androidx.compose.ui.graphics.Color(0xFFB00020)
+private val MatrixBg = Color(0xFF020403)            // общий фон
+private val MatrixSurface = Color(0xFF050807)       // карточки
+private val MatrixSurfaceVariant = Color(0xFF0A1410)
+
+private val DarkColorScheme = darkColorScheme(
+    primary = MatrixGreen,
+    onPrimary = Color.Black,
+    secondary = MatrixGreenSoft,
+    onSecondary = Color.Black,
+    tertiary = Color(0xFFFF5555),                  // красный только для ошибок
+    onTertiary = Color.Black,
+
+    background = MatrixBg,
+    onBackground = Color(0xFFE4F7E9),
+
+    surface = MatrixSurface,
+    onSurface = Color(0xFFE4F7E9),
+
+    surfaceVariant = MatrixSurfaceVariant,
+    onSurfaceVariant = Color(0xFFB0C3B8),
+
+    outline = MatrixGreenSoft.copy(alpha = 0.5f)
 )
 
 @Composable
 fun BadBinderTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = MatrixBg.toArgb()
+            WindowCompat.getInsetsController(window, view)
+                .isAppearanceLightStatusBars = false
         }
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = androidx.compose.material3.Typography(),
+        colorScheme = DarkColorScheme,
+        typography = Typography(),
         content = content
     )
 }

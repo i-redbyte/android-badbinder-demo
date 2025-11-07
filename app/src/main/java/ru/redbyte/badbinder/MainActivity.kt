@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import ru.redbyte.badbinder.ui.theme.BadBinderTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -26,10 +27,12 @@ class MainActivity : ComponentActivity() {
         setNativeLogger(viewModel)
 
         setContent {
-            ExploitScreen(
-                viewModel = viewModel,
-                onStartClick = { startExploit() }
-            )
+            BadBinderTheme {
+                ExploitScreen(
+                    viewModel = viewModel,
+                    onStartClick = { startExploit() }
+                )
+            }
         }
     }
 
